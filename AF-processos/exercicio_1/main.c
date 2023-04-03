@@ -26,7 +26,7 @@ int main(int argc, char** argv) {
      * 3. Espere o término dos filhos                *
      *************************************************/
     for (int i = 0; i < 2; i++) {
-        int childPid = fork();
+        pid_t childPid = fork();
         if (childPid == 0) {
             printf("Processo filho %d criado\n", getpid());
             return 0;
@@ -35,6 +35,6 @@ int main(int argc, char** argv) {
         }
     }
     while (wait(NULL) >= 0);
-    printf("Processo pai finalizado!\n");   
+    printf("Processo pai finalizado!\n");
     return 0;
 }

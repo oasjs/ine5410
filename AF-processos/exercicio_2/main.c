@@ -30,12 +30,12 @@
     
 int main(int argc, char** argv) {
     for (int i = 0; i < 2; i++) {
-        int childPid = fork();
+        pid_t childPid = fork();
         if (childPid == 0) {
             printf("Processo %d, filho de %d\n", getpid(), getppid());
             fflush(NULL);
             for (int j = 0; j < 3; j++) {
-                int grandChildPid = fork();
+                pid_t grandChildPid = fork();
                 if (grandChildPid == 0) {
                     printf("Processo %d, filho de %d\n", getpid(), getppid());
                     fflush(NULL);   
