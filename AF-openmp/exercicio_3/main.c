@@ -2,14 +2,17 @@
 #include <time.h>
 #include <math.h>
 #include <stdlib.h>
+#include <omp.h>
 
 double standard_deviation(double* data, int size) {
     double avg = 0;
+    #pragma omp parallel for
     for (int i = 0; i < size; ++i) 
         avg += data[i];
     avg /= size;
 
     double sd = 0;
+    #pragma omp parallel for schedule(static)
     for (int i = 0; i < size; ++i) 
         sd += pow(data[i] - avg, 2);
     sd = sqrt(sd / (size-1));

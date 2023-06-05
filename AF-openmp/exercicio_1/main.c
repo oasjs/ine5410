@@ -4,7 +4,9 @@
 #include <omp.h>
 
 void calcular(double* c, int size, int n_threads) {
-    for (long long int i = 0; i < size; i++) {
+    #pragma omp parallel for num_threads(n_threads)
+    for (long long int i = 0; i < size; i++) 
+    {
         c[i] = sqrt(i * 32) + sqrt(i * 16 + i * 8) + sqrt(i * 4 + i * 2 + i);
         c[i] -= sqrt(i * 32 * i * 16 + i * 4 + i * 2 + i);
         c[i] += pow(i * 32, 8) + pow(i * 16, 12);

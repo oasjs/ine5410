@@ -4,7 +4,7 @@
 #include <omp.h>
 
 void init_matrix(double* m, int rows, int columns) {
-    #pragma omp parallel for schedule(guided)
+    #pragma omp parallel for
     for (int i = 0; i < rows; ++i)
         for (int j = 0; j < columns; ++j)
             m[i*columns+j] = i + j;
@@ -14,13 +14,14 @@ void init_matrix(double* m, int rows, int columns) {
 void mult_matrix(double* out, double* left, double *right, 
                  int rows_left, int cols_left, int cols_right) {
     int i, j, k;
-    #pragma omp parallel for schedule(dynamic, 1)
+    #pragma omp parallel for collapse(2)
     for (i = 0; i < rows_left; ++i) {
         for (j = 0; j < cols_right; ++j) {
             out[i*cols_right+j] = 0;
-            #pragma omp parallel for firstprivate(i, j) schedule(guided)
-            for (k = 0; k < cols_left; ++k) 
+            #pragma omp parallel for
+            for (k = 0; k < cols_left; ++k) {
                 out[i*cols_right+j] += left[i*cols_left+k]*right[k*cols_right+j];
+            }
         }
     }
 }
